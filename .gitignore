@@ -1,0 +1,14 @@
+# Ne pas versionner les dépendances Node.js
+node_modules/
+
+# Ne pas versionner les fichiers liés à MySQL (dossier local ou dump)
+mysql/
+
+# Ignorer les fichiers de log
+*.log
+
+# Ignorer les rapports Cypress s'ils sont générés dans un dossier
+cypress/reports/
+
+# Ignorer les fichiers système (Mac)
+.DS_Store
