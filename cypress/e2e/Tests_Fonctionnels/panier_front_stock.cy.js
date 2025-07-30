@@ -19,12 +19,12 @@ describe("Automatisation Panier ", () => {
       // Clic sur le produit
       cy.visitProduct(productId);
 
-      // Attente chargement complet et rafraîchir
+      // Attente chargement et rafraîchir
       cy.wait(1000);
       cy.reload();
       cy.wait(1000);
-
-      // mémoriser le stock avant ajout
+      9;
+      // mémoriser stock avant ajout
       cy.get('[data-cy="detail-product-stock"]')
         .should("be.visible")
         .invoke("text")
@@ -38,7 +38,7 @@ describe("Automatisation Panier ", () => {
             stockAvant === 0 && initialStockAPI > 0
               ? initialStockAPI
               : stockAvant;
-          cy.log(`Stock de référence utilisé: ${stockReference}`);
+          cy.log(`Stock de réf utilisé: ${stockReference}`);
 
           cy.log("Champ de disponibilité présent");
 
@@ -61,7 +61,7 @@ describe("Automatisation Panier ", () => {
             const val = $input.val();
             cy.log(`Après chiffre négatif (-5): "${val}"`);
             if (val === "-5") {
-              cy.log("ANOMALIE: Champ accepte les valeurs négatives");
+              cy.log("Champ accepte valeurs négatives");
             }
           });
 
@@ -71,11 +71,11 @@ describe("Automatisation Panier ", () => {
             const val = $input.val();
             cy.log(`Après chiffre >20 (25): "${val}"`);
             if (val === "25") {
-              cy.log("ANOMALIE: Champ accepte les valeurs > 20");
+              cy.log("Champ accepte valeurs > 20");
             }
           });
 
-          cy.log("Tests des limites effectués");
+          cy.log("Tests limites");
 
           // TEST QUANTITÉ LIMITE (20)
           cy.log("\nTest quantité limite haute valide (20)...");
@@ -85,7 +85,7 @@ describe("Automatisation Panier ", () => {
             cy.log(`Quantité limite haute: "${val}"`);
             expect(val).to.equal("20");
           });
-          cy.log("Quantité limite haute (20) acceptée");
+          cy.log("Quantité limite (20) acceptée");
 
           // Ajouter au panier
           cy.log("\nAjout au panier avec quantité 3...");
@@ -104,10 +104,10 @@ describe("Automatisation Panier ", () => {
             .should("be.visible")
             .then(($input) => {
               const quantitePanier = $input.val();
-              cy.log(`📦 Quantité dans le panier: ${quantitePanier}`);
+              cy.log(`Quantité dans panier: ${quantitePanier}`);
               expect(quantitePanier).to.equal("3");
             });
-          cy.log("Produit ajouté avec la bonne quantité (3) !");
+          cy.log("Produit ajouté (3) !");
 
           // VérifAPI
           cy.log("\nVérification API...");
@@ -128,12 +128,12 @@ describe("Automatisation Panier ", () => {
               cy.log(`Quantité via API: ${quantiteAPI}`);
               expect(quantiteAPI).to.equal(3);
 
-              cy.log("Contenu panier vérifié via API avec bonne quantité");
+              cy.log("Contenu panier vérifié via API");
             });
           });
 
           // Vérif stock (doit diminuer de 3)
-          cy.log("\nVérification stock mis à jour (diminution de 3)...");
+          cy.log("\nVérification stock (diminution de 3)...");
           cy.visitProduct(productId);
 
           cy.wait(2000);
@@ -145,7 +145,7 @@ describe("Automatisation Panier ", () => {
             .invoke("text")
             .then((stockTextApres) => {
               const stockApres = extractStock(stockTextApres);
-              const stockAttendu = stockReference - 3; // 🆕 Diminution de 3
+              const stockAttendu = stockReference - 3;
 
               cy.log(`Stock de référence: ${stockReference}`);
               cy.log(`Stock APRÈS ajout: ${stockApres}`);
@@ -153,17 +153,13 @@ describe("Automatisation Panier ", () => {
 
               // VALIDATION avec quantité 3
               if (stockApres === stockAttendu) {
-                cy.log(
-                  `Stock parfaitement diminué de 3: ${stockReference} → ${stockApres}`
-                );
+                cy.log(`Stock diminué de 3: ${stockReference} → ${stockApres}`);
               } else if (
                 stockApres === stockReference - 3 ||
                 (stockReference === initialStockAPI &&
                   stockApres === initialStockAPI - 3)
               ) {
-                cy.log(
-                  `Stock correctement diminué de 3: ${stockReference} → ${stockApres}`
-                );
+                cy.log(`Stock diminué de 3: ${stockReference} → ${stockApres}`);
               } else if (stockApres < stockReference) {
                 const diminution = stockReference - stockApres;
                 cy.log(
@@ -172,22 +168,15 @@ describe("Automatisation Panier ", () => {
               } else {
                 if (stockApres === initialStockAPI - 3) {
                   cy.log(
-                    `Stock correctement diminué par rapport à l'API: ${initialStockAPI} → ${stockApres}`
+                    `Stock diminué par rapport à l'API: ${initialStockAPI} → ${stockApres}`
                   );
                 } else {
                   cy.log(
-                    `Stock inattendu: référence=${stockReference}, après=${stockApres}, API=${initialStockAPI}`
-                  );
-                  cy.log(
-                    `Mais le produit a bien été ajouté au panier (vérifié)`
+                    `Stock : référence=${stockReference}, après=${stockApres}, API=${initialStockAPI}`
                   );
                 }
               }
-
-              cy.log("Vérification stock effectuée avec quantité multiple");
             });
-
-          cy.log("Couverte OK !");
         });
     });
   });

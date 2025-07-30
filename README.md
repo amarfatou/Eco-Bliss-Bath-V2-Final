@@ -16,7 +16,7 @@ Avant de lancer les tests, assurez-vous d’avoir :
 L’objectif est d'automatiser les fonctionnalités critiques du site avant sa mise en production, notamment :
 
 - La connexion utilisateur
-- L’affichage des produits
+- Le panier
 - Les tests API
 - La sécurité (faille XSS)
 
@@ -29,7 +29,7 @@ L’objectif est d'automatiser les fonctionnalités critiques du site avant sa m
 # Tests effectués
 
 - Connexion utilisateur
-  - Affichage des produits
+  - Panier
   - Somke tests (présence des champs et boutons de connexion)
   - Tests API : GET, POST (login, panier, ajout produit disponible, ajout produit en rupture, avis..)
   - Test de faille XSS

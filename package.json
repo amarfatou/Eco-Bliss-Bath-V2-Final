@@ -1,9 +1,5 @@
 {
   "devDependencies": {
-<<<<<<< HEAD
-    "cypress": "^14.4.1"
-=======
     "cypress": "^14.5.3"
->>>>>>> 0682c79 (Mise à jour : corrections des tests automatisés-Ajout Panier)
   }
 }
